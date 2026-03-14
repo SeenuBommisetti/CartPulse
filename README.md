@@ -1,35 +1,110 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# CartPulse
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+CartPulse is an AI-powered shopping assistant built with Kotlin Multiplatform and Jetpack Compose. Users can chat with the assistant, ask product-related questions, and receive quick recommendations with short explanations and price guidance.
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+## Features
 
-### Build and Run Android Application
+- Chat-based shopping assistant UI built with Jetpack Compose
+- Shared business logic with Kotlin Multiplatform
+- Gemini API integration through Ktor Client
+- Clean separation between shared logic and Android UI
+- Material 3 chat interface with loading state and assistant replies
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
+## Tech Stack
 
-### Build and Run iOS Application
+### Shared
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+- Kotlin Multiplatform
+- Ktor Client
+- Coroutines
+- Kotlinx Serialization
 
----
+### Android
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+- Jetpack Compose
+- ViewModel
+- StateFlow
+- Material 3
+
+### AI
+
+- Gemini API
+
+## Project Structure
+
+```text
+composeApp/
+  src/
+    commonMain/
+      kotlin/com/seenubommisetti/app/cartpulse/
+        data/
+        domain/
+        models/
+        network/
+        prompt/
+    androidMain/
+      kotlin/com/seenubommisetti/app/cartpulse/
+        ui/
+        viewmodel/
+```
+
+## Architecture
+
+CartPulse keeps provider logic and business logic in the shared KMP layer, while Android only owns UI and Android-specific wiring.
+
+- `models/` contains shared chat message models
+- `prompt/` builds shopping assistant instructions and conversation context
+- `network/` contains the provider-agnostic AI contract and Gemini client
+- `data/` contains the repository layer
+- `domain/` contains the use case for sending shopping queries
+- `androidMain/ui/` contains the Compose chat screen
+- `androidMain/viewmodel/` contains the Android `ViewModel` and UI state
+
+## Setup
+
+Add your Gemini API key to `local.properties`:
+
+```properties
+GEMINI_API_KEY=your_gemini_api_key
+```
+
+The project also checks `GOOGLE_API_KEY` as a fallback.
+
+## Run the Android App
+
+### Windows
+
+```powershell
+.\gradlew.bat :composeApp:assembleDebug
+```
+
+### macOS/Linux
+
+```bash
+./gradlew :composeApp:assembleDebug
+```
+
+Then run the generated Android app from Android Studio or install the debug APK on a device/emulator.
+
+## Package Name
+
+The app package name is:
+
+```text
+com.seenubommisetti.app.cartpulse
+```
+
+## Current Status
+
+- Android chat experience is implemented and working
+- Shared KMP business logic is in place
+- Gemini-based shopping recommendations are wired through the shared layer
+- iOS entry point is present, but the full chat UI is currently focused on Android
+
+## Future Improvements
+
+- Product cards with images and links
+- Conversation history persistence
+- Better recommendation formatting
+- Category filters and budget chips
+- Cross-platform UI parity for iOS
