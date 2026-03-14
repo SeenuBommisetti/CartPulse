@@ -86,13 +86,6 @@ The project also checks `GOOGLE_API_KEY` as a fallback.
 
 Then run the generated Android app from Android Studio or install the debug APK on a device/emulator.
 
-## Package Name
-
-The app package name is:
-
-```text
-com.seenubommisetti.app.cartpulse
-```
 
 ## Current Status
 
