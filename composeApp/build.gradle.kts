@@ -19,8 +19,9 @@ val localProperties = Properties().apply {
 
 fun String.asBuildConfigString(): String = "\"${replace("\\", "\\\\").replace("\"", "\\\"")}\""
 
-val openAiApiKey = (findProperty("OPENAI_API_KEY") as? String)
-    ?: localProperties.getProperty("OPENAI_API_KEY", "")
+val geminiApiKey = (findProperty("GEMINI_API_KEY") as? String)
+    ?: localProperties.getProperty("GEMINI_API_KEY", "")
+
 
 kotlin {
     androidTarget {
@@ -50,7 +51,6 @@ kotlin {
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
-            implementation(libs.compose.materialIconsExtended)
             implementation(libs.compose.ui)
             implementation(libs.compose.components.resources)
             implementation(libs.compose.uiToolingPreview)
@@ -71,16 +71,18 @@ kotlin {
 }
 
 android {
-    namespace = "com.thebaft.app.cartpulse"
+    namespace = "com.seenubommisetti.app.cartpulse"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
+    sourceSets["main"].res.setSrcDirs(listOf("src/androidMain/res"))
+
     defaultConfig {
-        applicationId = "com.thebaft.app.cartpulse"
+        applicationId = "com.seenubommisetti.app.cartpulse"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
-        buildConfigField("String", "OPENAI_API_KEY", openAiApiKey.asBuildConfigString())
+        buildConfigField("String", "GEMINI_API_KEY", geminiApiKey.asBuildConfigString())
     }
     buildFeatures {
         buildConfig = true

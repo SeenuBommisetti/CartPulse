@@ -1,4 +1,4 @@
-package com.thebaft.app.cartpulse
+package com.seenubommisetti.app.cartpulse
 
 import android.os.Build
 
